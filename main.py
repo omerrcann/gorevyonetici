@@ -23,83 +23,71 @@ class ModernGorevYoneticisiGUI:
     def setup_modern_theme(self):
         self.root.configure(bg='#1a1a2e')
         self.colors = {
-            'primary': '#6c5ce7', 
-            'secondary': '#fd79a8', 
-            'success': '#00b894',  
-            'warning': '#fdcb6e',  
-            'danger': '#e17055',  
-            'info': '#74b9ff',  
-            'dark': '#1a1a2e',  
-            'light': '#ffffff',  
-            'card': '#16213e',  
-            'text': '#dfe6e9',  
-            'border': '#2d3748',  
-            'hover': '#a29bfe'  
+            'primary': '#6c5ce7',  # Mor
+            'secondary': '#fd79a8',  # Pembe
+            'success': '#00b894',  # Yeşil
+            'warning': '#fdcb6e',  # Sarı
+            'danger': '#e17055',  # Turuncu-kırmızı
+            'info': '#74b9ff',  # Mavi
+            'dark': '#1a1a2e',  # Koyu mavi
+            'light': '#ffffff',  # Beyaz
+            'card': '#16213e',  # Kart arka planı
+            'text': '#dfe6e9',  # Metin rengi
+            'border': '#2d3748',  # Kenar rengi
+            'hover': '#a29bfe'  # Hover efekti
         }
-
         self.setup_custom_styles()
 
     def setup_custom_styles(self):
         style = ttk.Style()
         style.theme_use('clam')
-
         style.configure('Card.TFrame',
                         background=self.colors['card'],
                         relief='flat',
                         borderwidth=1)
-
         style.configure('ModernTitle.TLabel',
                         font=('Segoe UI', 24, 'bold'),
                         background=self.colors['dark'],
                         foreground=self.colors['primary'])
-      
         style.configure('Subtitle.TLabel',
                         font=('Segoe UI', 12),
                         background=self.colors['card'],
                         foreground=self.colors['text'])
-
         style.configure('Modern.TButton',
                         font=('Segoe UI', 10, 'bold'),
                         relief='flat',
                         padding=(15, 8))
-
         style.configure('Primary.TButton',
                         font=('Segoe UI', 10, 'bold'),
                         relief='flat',
                         padding=(15, 8),
                         background=self.colors['primary'])
-
         style.configure('Success.TButton',
                         font=('Segoe UI', 10, 'bold'),
                         relief='flat',
                         padding=(12, 6),
                         background=self.colors['success'])
-
         style.configure('Danger.TButton',
                         font=('Segoe UI', 10, 'bold'),
                         relief='flat',
                         padding=(12, 6),
                         background=self.colors['danger'])
-
         style.configure('Modern.TEntry',
                         font=('Segoe UI', 11),
                         fieldbackground=self.colors['light'],
                         relief='flat',
                         borderwidth=2)
-
         style.configure('Modern.Treeview',
                         background=self.colors['light'],
                         foreground='#2d3748',
                         font=('Segoe UI', 10),
                         rowheight=35,
                         fieldbackground=self.colors['light'])
-
         style.configure('Modern.Treeview.Heading',
                         font=('Segoe UI', 11, 'bold'),
                         background=self.colors['primary'],
                         foreground='white',
                         relief='flat')
-
         style.configure('Modern.Horizontal.TProgressbar',
                         background=self.colors['success'],
                         troughcolor=self.colors['border'],
@@ -107,7 +95,6 @@ class ModernGorevYoneticisiGUI:
                         relief='flat')
 
     def create_modern_widgets(self):
-        Modern arayüz bileşenleri
         main_container = tk.Frame(self.root, bg=self.colors['dark'])
         main_container.pack(fill='both', expand=True, padx=20, pady=0)
         self.create_header(main_container)
@@ -118,19 +105,20 @@ class ModernGorevYoneticisiGUI:
         self.create_modern_statistics(main_container)
 
     def create_header(self, parent):
-        Modern başlık
         header_frame = tk.Frame(parent, bg=self.colors['dark'], height=80)
         header_frame.pack(fill='x', pady=(0, 10))
         header_frame.pack_propagate(False)
 
         title_frame = tk.Frame(header_frame, bg=self.colors['dark'])
         title_frame.pack(expand=True)
+
         title_text = "✨ Modern Görev Yönetici"
         self.title_label = tk.Label(title_frame, text=title_text,
                                     font=('Segoe UI', 28, 'bold'),
                                     bg=self.colors['dark'],
                                     fg=self.colors['primary'])
         self.title_label.pack(pady=20)
+
         subtitle = "Görevlerinizi modern ve şık bir arayüzle yönetin"
         tk.Label(header_frame, text=subtitle,
                  font=('Segoe UI', 12),
@@ -138,7 +126,6 @@ class ModernGorevYoneticisiGUI:
                  fg=self.colors['text']).pack()
 
     def create_modern_task_list(self, parent):
-        Modern görev listesi
         left_panel = tk.Frame(parent, bg=self.colors['dark'])
         left_panel.pack(side='left', fill='both', expand=True, padx=(0, 15))
         card_frame = tk.Frame(left_panel, bg=self.colors['card'],
@@ -155,7 +142,6 @@ class ModernGorevYoneticisiGUI:
 
         tree_container = tk.Frame(card_frame, bg=self.colors['card'])
         tree_container.pack(fill='both', expand=True, padx=15, pady=15)
-
         columns = ('🎯', 'Görev', '📅')
         self.tree = ttk.Treeview(tree_container, columns=columns,
                                  show='headings', height=18,
@@ -164,24 +150,18 @@ class ModernGorevYoneticisiGUI:
         self.tree.heading('🎯', text='Durum')
         self.tree.heading('Görev', text='Görev Açıklaması')
         self.tree.heading('📅', text='Oluşturma Tarihi')
-
         self.tree.column('🎯', width=80, anchor='center')
         self.tree.column('Görev', width=350)
         self.tree.column('📅', width=150, anchor='center')
-
         scrollbar = ttk.Scrollbar(tree_container, orient="vertical",
                                   command=self.tree.yview)
         self.tree.configure(yscrollcommand=scrollbar.set)
-
-      self.tree.pack(side='left', fill='both', expand=True)
+        self.tree.pack(side='left', fill='both', expand=True)
         scrollbar.pack(side='right', fill='y')
-
         self.tree.bind('<Double-1>', self.on_task_double_click)
         self.tree.bind('<Button-3>', self.on_task_right_click)
 
     def create_modern_controls(self, parent):
-        Modern kontrol paneli
-
         right_panel = tk.Frame(parent, bg=self.colors['dark'], width=300)
         right_panel.pack(side='right', fill='y')
         right_panel.pack_propagate(False)
@@ -192,10 +172,8 @@ class ModernGorevYoneticisiGUI:
         self.create_search_card(right_panel)
 
     def create_add_task_card(self, parent):
-        Görev ekleme kartı
         card = tk.Frame(parent, bg=self.colors['card'], relief='solid', bd=1)
         card.pack(fill='x', padx=5)
-
         header = tk.Frame(card, bg=self.colors['secondary'], height=40)
         header.pack(fill='x')
         header.pack_propagate(False)
@@ -207,7 +185,6 @@ class ModernGorevYoneticisiGUI:
 
         content = tk.Frame(card, bg=self.colors['card'])
         content.pack(fill='x', padx=20, pady=20)
-
         tk.Label(content, text="Görev açıklaması:",
                  font=('Segoe UI', 10),
                  bg=self.colors['card'],
@@ -216,7 +193,6 @@ class ModernGorevYoneticisiGUI:
         self.task_entry = ttk.Entry(content, style='Modern.TEntry', width=30)
         self.task_entry.pack(fill='x', pady=(0, 15))
         self.task_entry.bind('<Return>', lambda e: self.gorev_ekle())
-
         add_btn = tk.Button(content, text="🚀 Görevi Ekle",
                             font=('Segoe UI', 11, 'bold'),
                             bg=self.colors['primary'],
@@ -225,24 +201,20 @@ class ModernGorevYoneticisiGUI:
                             cursor='hand2',
                             command=self.gorev_ekle)
         add_btn.pack(fill='x', pady=5)
-
         add_btn.bind('<Enter>', lambda e: add_btn.configure(bg=self.colors['hover']))
         add_btn.bind('<Leave>', lambda e: add_btn.configure(bg=self.colors['primary']))
 
     def create_action_buttons_card(self, parent):
-        Aksiyon butonları kartı
         card = tk.Frame(parent, bg=self.colors['card'], relief='solid', bd=1)
         card.pack(fill='x', padx=5)
 
         header = tk.Frame(card, bg=self.colors['info'], height=40)
         header.pack(fill='x')
         header.pack_propagate(False)
-
         tk.Label(header, text="🛠️ Görev İşlemleri",
                  font=('Segoe UI', 12, 'bold'),
                  bg=self.colors['info'],
                  fg='white').pack(pady=10)
-
         content = tk.Frame(card, bg=self.colors['card'])
         content.pack(fill='x', padx=20, pady=20)
 
@@ -267,13 +239,11 @@ class ModernGorevYoneticisiGUI:
                             cursor='hand2',
                             command=command)
             btn.pack(fill='x', pady=1)
-
             original_color = color
             btn.bind('<Enter>', lambda e, b=btn, c=color: b.configure(bg=self.lighten_color(c)))
             btn.bind('<Leave>', lambda e, b=btn, c=original_color: b.configure(bg=c))
 
     def create_search_card(self, parent):
-        Arama kartı
         card = tk.Frame(parent, bg=self.colors['card'], relief='solid', bd=1)
         card.pack(fill='x', padx=5)
 
@@ -285,10 +255,8 @@ class ModernGorevYoneticisiGUI:
                  font=('Segoe UI', 12, 'bold'),
                  bg=self.colors['success'],
                  fg='white').pack(pady=10)
-
         content = tk.Frame(card, bg=self.colors['card'])
         content.pack(fill='x', padx=20, pady=20)
-
         tk.Label(content, text="Arama terimi:",
                  font=('Segoe UI', 10),
                  bg=self.colors['card'],
@@ -299,33 +267,25 @@ class ModernGorevYoneticisiGUI:
         self.search_entry.bind('<KeyRelease>', self.gorev_ara)
 
     def create_modern_statistics(self, parent):
-        Modern istatistik paneli
         stats_container = tk.Frame(parent, bg=self.colors['dark'], height=120)
         stats_container.pack(fill='x', pady=(20, 0))
         stats_container.pack_propagate(False)
-      
         cards_frame = tk.Frame(stats_container, bg=self.colors['dark'])
         cards_frame.pack(fill='both', expand=True, pady=10)
-
         self.create_stat_cards(cards_frame)
-
         progress_frame = tk.Frame(stats_container, bg=self.colors['dark'])
         progress_frame.pack(fill='x', pady=(10, 0))
-
         tk.Label(progress_frame, text="📊 Tamamlanma İlerlemesi",
                  font=('Segoe UI', 11, 'bold'),
                  bg=self.colors['dark'],
                  fg=self.colors['text']).pack()
-
         self.progress_var = tk.DoubleVar()
         self.progress_bar = ttk.Progressbar(progress_frame,
                                             variable=self.progress_var,
                                             maximum=100,
                                             length=400,
                                             style='Modern.Horizontal.TProgressbar')
-
         self.progress_bar.pack(pady=10)
-
         self.progress_label = tk.Label(progress_frame, text="0%",
                                        font=('Segoe UI', 10, 'bold'),
                                        bg=self.colors['dark'],
@@ -333,7 +293,6 @@ class ModernGorevYoneticisiGUI:
         self.progress_label.pack()
 
     def create_stat_cards(self, parent):
-        İstatistik kartları
         stats = [
             ("Toplam", "📈", 'info'),
             ("Tamamlanan", "✅", 'success'),
@@ -342,19 +301,15 @@ class ModernGorevYoneticisiGUI:
         ]
 
         self.stat_labels = {}
-
         for i, (title, icon, color_key) in enumerate(stats):
             card = tk.Frame(parent, bg=self.colors[color_key],
                             relief='solid', bd=1, width=200, height=120)
             card.pack(side='left', fill='y', padx=5, expand=True)
             card.pack_propagate(False)
-
             tk.Label(card, text=icon, font=('Segoe UI', 20),
                      bg=self.colors[color_key], fg='white').pack(pady=(0, 0))
-
             tk.Label(card, text=title, font=('Segoe UI', 10, 'bold'),
                      bg=self.colors[color_key], fg='white').pack()
-
             value_label = tk.Label(card, text="0",
                                    font=('Segoe UI', 16, 'bold'),
                                    bg=self.colors[color_key], fg='white')
@@ -363,7 +318,6 @@ class ModernGorevYoneticisiGUI:
             self.stat_labels[title.lower()] = value_label
 
     def lighten_color(self, color):
-        Rengi açık hale getir (hover efekti için)
         color_map = {
             self.colors['primary']: self.colors['hover'],
             self.colors['success']: '#55efc4',
@@ -375,11 +329,9 @@ class ModernGorevYoneticisiGUI:
         return color_map.get(color, color)
 
     def start_animations(self):
-        Animasyonları başlat
         self.animate_title()
 
     def animate_title(self):
-        Başlık animasyonu
         colors = [self.colors['primary'], self.colors['secondary'],
                   self.colors['success'], self.colors['info']]
 
@@ -391,7 +343,6 @@ class ModernGorevYoneticisiGUI:
         change_color()
 
     def gorevleri_yukle(self):
-        Görevleri dosyadan yükle
         try:
             if os.path.exists(self.dosya_adi):
                 with open(self.dosya_adi, 'r', encoding='utf-8') as dosya:
@@ -405,7 +356,6 @@ class ModernGorevYoneticisiGUI:
             self.gorevler = []
 
     def gorevleri_kaydet(self):
-        Görevleri dosyaya kaydet
         try:
             with open(self.dosya_adi, 'w', encoding='utf-8') as dosya:
                 json.dump(self.gorevler, dosya, ensure_ascii=False, indent=2)
@@ -414,10 +364,8 @@ class ModernGorevYoneticisiGUI:
             messagebox.showerror("Hata", f"Dosya kaydetme hatası: {str(e)}")
 
     def gorevleri_guncelle(self):
-        Görev listesini güncelle
         for item in self.tree.get_children():
             self.tree.delete(item)
-
         for i, gorev in enumerate(self.gorevler):
             durum = "✅" if gorev.get("durum") == "tamamlandi" else "⏳"
             tarih = gorev.get('olusturma_tarihi', '').split()[0]
@@ -429,7 +377,6 @@ class ModernGorevYoneticisiGUI:
         self.istatistikleri_guncelle()
 
     def istatistikleri_guncelle(self):
-        İstatistikleri güncelle
         toplam = len(self.gorevler)
         tamamlanan = sum(1 for g in self.gorevler if g.get("durum") == "tamamlandi")
         bekleyen = toplam - tamamlanan
@@ -443,7 +390,6 @@ class ModernGorevYoneticisiGUI:
         self.progress_label.config(text=f"{oran:.1f}%")
 
     def gorev_ekle(self):
-        Yeni görev ekle
         gorev_metni = self.task_entry.get().strip()
 
         if not gorev_metni:
@@ -464,7 +410,6 @@ class ModernGorevYoneticisiGUI:
         self.show_status_message(f"✓ Görev eklendi: {gorev_metni}")
 
     def gorev_duzenle(self):
-        Seçili görevi düzenle
         secili = self.tree.selection()
         if not secili:
             messagebox.showwarning("Uyarı", "Lütfen düzenlenecek görevi seçin!")
@@ -485,7 +430,6 @@ class ModernGorevYoneticisiGUI:
             self.show_status_message(f"✓ Görev güncellendi: {yeni_metin}")
 
     def gorev_sil(self):
-        Seçili görevi sil
         secili = self.tree.selection()
         if not secili:
             messagebox.showwarning("Uyarı", "Lütfen silinecek görevi seçin!")
@@ -505,7 +449,6 @@ class ModernGorevYoneticisiGUI:
             self.show_status_message(f"✓ Görev silindi: {gorev['metin']}")
 
     def gorev_durumu_degistir(self):
-        Seçili görevin durumunu değiştir
         secili = self.tree.selection()
         if not secili:
             messagebox.showwarning("Uyarı", "Lütfen görev seçin!")
@@ -529,7 +472,6 @@ class ModernGorevYoneticisiGUI:
         self.show_status_message(mesaj)
 
     def gorev_ara(self, event=None):
-        Görev ara
         arama_terimi = self.search_entry.get().lower()
 
         for item in self.tree.get_children():
@@ -546,7 +488,6 @@ class ModernGorevYoneticisiGUI:
                     self.tree.item(item, tags=('completed',))
 
     def istatistik_goster(self):
-        Detaylı istatistik göster
         if not self.gorevler:
             messagebox.showinfo("İstatistik", "Henüz hiç görev eklenmemiş.")
             return
@@ -555,10 +496,9 @@ class ModernGorevYoneticisiGUI:
         tamamlanan = sum(1 for g in self.gorevler if g.get("durum") == "tamamlandi")
         bekleyen = toplam - tamamlanan
         oran = (tamamlanan / toplam * 100) if toplam > 0 else 0
-
         son_gorevler = sorted(self.gorevler, key=lambda x: x.get('olusturma_tarihi', ''), reverse=True)[:5]
         son_liste = "\n".join([f"• {g['metin']}" for g in son_gorevler])
-        mesaj = f🎯 DETAYLI İSTATİSTİKLER
+        mesaj = f"""🎯 DETAYLI İSTATİSTİKLER
 
 📊 Genel Durum:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -572,41 +512,39 @@ class ModernGorevYoneticisiGUI:
 {son_liste}
 
 🎉 {'Harika gidiyorsun! 🚀' if oran > 70 else 'Devam et! 💪' if oran > 30 else 'Başlangıç güzel! ⭐'}
-
+"""
 
         messagebox.showinfo("📊 Detaylı İstatistikler", mesaj)
 
     def on_task_double_click(self, event):
-        Görev çift tıklandığında düzenle
         self.gorev_duzenle()
 
+    def on_task_right_click(self, event):
+        """Görev sağ tıklandığında menü göster"""
+        # Gelecekte context menu eklenebilir
+        pass
+
     def show_status_message(self, mesaj):
-        Durum mesajı göster - modern animasyonlu
         original_title = "✨ Modern Görev Yönetici"
         self.root.title(f"✨ {mesaj}")
-
         self.root.after(3000, lambda: self.root.title(original_title))
         self.flash_status_animation()
 
     def flash_status_animation(self):
-        Status mesajı için flash animasyonu
         original_bg = self.root.cget('bg')
         flash_color = self.colors['success']
 
         def flash(count=0):
-            if count < 6:  # 3 kez yanıp sönsün
+            if count < 6:
                 current_bg = flash_color if count % 2 == 0 else original_bg
                 self.root.configure(bg=current_bg)
                 self.root.after(150, lambda: flash(count + 1))
             else:
                 self.root.configure(bg=original_bg)
-
         flash()
 
     def on_closing(self):
-        Pencere kapatılırken çalış - modern geçiş efekti
         self.gorevleri_kaydet()
-
         def fade_out(alpha=1.0):
             if alpha > 0:
                 self.root.attributes('-alpha', alpha)
@@ -620,7 +558,7 @@ class ModernGorevYoneticisiGUI:
             self.root.destroy()
 
     def calistir(self):
-        Modern uygulamayı başlat
+
         def fade_in(alpha=0.0):
             if alpha < 1.0:
                 self.root.attributes('-alpha', alpha)
@@ -633,12 +571,10 @@ class ModernGorevYoneticisiGUI:
             fade_in()
         except:
             pass
-
         self.center_window()
         self.root.mainloop()
 
     def center_window(self):
-        Pencereyi ekranın merkezine getir
         self.root.update_idletasks()
         width = self.root.winfo_width()
         height = self.root.winfo_height()
@@ -647,7 +583,6 @@ class ModernGorevYoneticisiGUI:
         self.root.geometry(f'{width}x{height}+{x}+{y}')
 
     def create_tooltip(self, widget, text):
-        Tooltip oluştur (gelecek geliştirmeler için)
 
         def on_enter(event):
             tooltip = tk.Toplevel()
@@ -670,8 +605,8 @@ class ModernGorevYoneticisiGUI:
         widget.bind('<Enter>', on_enter)
         widget.bind('<Leave>', on_leave)
 
+
 def main():
-    Ana program fonksiyonu
     try:
         app = ModernGorevYoneticisiGUI()
         app.calistir()
