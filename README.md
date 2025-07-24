@@ -26,7 +26,7 @@
 
 ---
 
-**Güvenlik**
+**🛡️Güvenlik**
 
 - Şifreler bcrypt ile güvenli bir şekilde saklanır.
 
@@ -36,7 +36,7 @@
 ---
 
 
-**Gelecek Planları**
+**📈Gelecek Planları**
 
 - Çevrimdışı harita desteği,
 
