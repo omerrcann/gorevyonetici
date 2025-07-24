@@ -1,0 +1,7 @@
+customtkinter
+tkintermapview
+requests
+bcrypt
+Pillow
+matplotlib
+numpy
