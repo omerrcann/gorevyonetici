@@ -1157,9 +1157,6 @@ class App(customtkinter.CTk):
         self.create_general_stats(general_tab)
         time_tab = notebook.add("📅 Zaman")
         self.create_time_analysis(time_tab)
-        geo_tab = notebook.add("🌍 Coğrafya")
-        self.create_geographic_analysis(geo_tab)
-
     def create_general_stats(self, parent):
         scroll_frame = customtkinter.CTkScrollableFrame(parent)
         scroll_frame.pack(fill="both", expand=True, padx=10, pady=10)
@@ -1174,7 +1171,6 @@ class App(customtkinter.CTk):
         cards_data = [
             ("Toplam Lokasyon", total_locations, "🎯", COLORS['accent']),
             ("Tamamlanma", f"{completion_rate:.1f}%", "✅", COLORS['success']),
-            ("Ortalama Not", self.calculate_avg_note_length(), "📝", COLORS['warning']),
             ("Medya Oranı", f"{self.calculate_media_percentage():.1f}%", "📷", '#8B5CF6')
         ]
 
@@ -1244,7 +1240,7 @@ class App(customtkinter.CTk):
             monthly_data[month] += 1
 
         if monthly_data:
-            fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
+            fig, ax1 = plt.subplots(1, 1, figsize=(10, 4))
             fig.patch.set_facecolor('#111827')
 
             months = sorted(monthly_data.keys())
@@ -1253,23 +1249,11 @@ class App(customtkinter.CTk):
             ax1.plot(months, values, marker='o', linewidth=2, markersize=6, color='#3B82F6')
             ax1.set_title('Aylık Ziyaret Trendi', color='white', fontsize=14, fontweight='bold')
             ax1.set_facecolor('#1F2937')
-            ax1.tick_params(colors='white')
+            ax1.tick_params(colors='white', rotation=45)
             ax1.grid(True, alpha=0.3)
 
-            weekdays = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar']
-            weekday_counts = [len(self.visited_markers) // 7] * 7  # Basit dağılım
-            np.random.shuffle(weekday_counts)  # Rastgele dağılım
-
-            ax2.bar(weekdays, weekday_counts, color='#10B981', alpha=0.8)
-            ax2.set_title('Hafta Günlerine Göre Aktivite', color='white', fontsize=14, fontweight='bold')
-            ax2.set_facecolor('#1F2937')
-            ax2.tick_params(colors='white', rotation=45)
-
-            for ax in [ax1, ax2]:
-                ax.spines['bottom'].set_color('white')
-                ax.spines['top'].set_color('white')
-                ax.spines['right'].set_color('white')
-                ax.spines['left'].set_color('white')
+            for spine in ax1.spines.values():
+                spine.set_color('white')
 
             plt.tight_layout()
 
@@ -1289,94 +1273,7 @@ class App(customtkinter.CTk):
             )
             no_data_label.pack(pady=50)
 
-    def create_geographic_analysis(self, parent):
-        """Coğrafi analiz sekmesi"""
-        scroll_frame = customtkinter.CTkScrollableFrame(parent)
-        scroll_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
-        if self.visited_markers:
-            lats = [loc['lat'] for loc in self.visited_markers]
-            lons = [loc['lon'] for loc in self.visited_markers]
-
-            stats_frame = customtkinter.CTkFrame(scroll_frame, fg_color=COLORS['secondary'], corner_radius=15)
-            stats_frame.pack(fill="x", pady=10)
-
-            stats_title = customtkinter.CTkLabel(
-                stats_frame,
-                text="🌍 Coğrafi Dağılım İstatistikleri",
-                font=customtkinter.CTkFont(size=16, weight="bold"),
-                text_color=COLORS['text']
-            )
-            stats_title.pack(pady=(15, 20))
-
-            geo_stats = [
-                ("En Kuzey", f"{max(lats):.4f}°", "⬆️"),
-                ("En Güney", f"{min(lats):.4f}°", "⬇️"),
-                ("En Doğu", f"{max(lons):.4f}°", "➡️"),
-                ("En Batı", f"{min(lons):.4f}°", "⬅️"),
-                ("Merkez Noktası", f"{np.mean(lats):.4f}°, {np.mean(lons):.4f}°", "🎯")
-            ]
-
-            for i, (label, value, icon) in enumerate(geo_stats):
-                stat_frame = customtkinter.CTkFrame(stats_frame, fg_color=COLORS['primary'], corner_radius=8)
-                stat_frame.pack(fill="x", padx=15, pady=3)
-
-                stat_label = customtkinter.CTkLabel(
-                    stat_frame,
-                    text=f"{icon} {label}",
-                    font=customtkinter.CTkFont(size=12, weight="bold"),
-                    anchor="w"
-                )
-                stat_label.pack(side="left", padx=15, pady=8)
-
-                value_label = customtkinter.CTkLabel(
-                    stat_frame,
-                    text=value,
-                    font=customtkinter.CTkFont(size=11),
-                    text_color=COLORS['text_secondary']
-                )
-                value_label.pack(side="right", padx=15, pady=8)
-
-            stats_frame.pack_configure(pady=(10, 15))
-
-            if len(self.visited_markers) > 1:
-                fig, ax = plt.subplots(figsize=(10, 6))
-                fig.patch.set_facecolor('#111827')
-
-                scatter = ax.scatter(lons, lats, c=range(len(lats)), cmap='viridis',
-                                     s=50, alpha=0.7, edgecolors='white', linewidth=0.5)
-
-                ax.set_title('Ziyaret Edilen Lokasyonlar', color='white', fontsize=14, fontweight='bold')
-                ax.set_xlabel('Boylam', color='white')
-                ax.set_ylabel('Enlem', color='white')
-                ax.set_facecolor('#1F2937')
-                ax.tick_params(colors='white')
-                ax.grid(True, alpha=0.3)
-
-                cbar = plt.colorbar(scatter, ax=ax)
-                cbar.set_label('Ziyaret Sırası', color='white')
-                cbar.ax.tick_params(colors='white')
-
-                for spine in ax.spines.values():
-                    spine.set_color('white')
-
-                plt.tight_layout()
-
-                canvas_frame = customtkinter.CTkFrame(scroll_frame, fg_color=COLORS['secondary'])
-                canvas_frame.pack(fill="both", expand=True, pady=10)
-
-                canvas = FigureCanvasTkAgg(fig, canvas_frame)
-                canvas.draw()
-                canvas.get_tk_widget().pack(fill="both", expand=True, padx=10, pady=10)
-
-        else:
-            no_data_label = customtkinter.CTkLabel(
-                scroll_frame,
-                text="🌍 Henüz coğrafi analiz için yeterli veri yok",
-                font=customtkinter.CTkFont(size=16),
-                text_color=COLORS['text_secondary']
-            )
-            no_data_label.pack(pady=50)
 
     def calculate_avg_note_length(self):
         total_chars = 0
